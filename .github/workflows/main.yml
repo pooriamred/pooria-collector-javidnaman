@@ -11,8 +11,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions: # <-- این بخش اضافه شده است
-      contents: write # <-- این خط به اکشن اجازه پوش کردن می‌دهد
+    permissions:
+      contents: write
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -28,11 +28,9 @@ jobs:
       - name: Run Collector Script
         run: python collector.py
 
-      - name: Commit and Push new sub file
+      - name: Commit and Push changes
         run: |
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions-bot@github.com"
-          git add POORIAJavidanIran.txt
-
-          git diff --quiet && git diff --staged --quiet || git commit -m "Updated subscription file"
-          git push
+          git add configs/proxy_configs.txt
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Updated configs in configs folder" && git push)
